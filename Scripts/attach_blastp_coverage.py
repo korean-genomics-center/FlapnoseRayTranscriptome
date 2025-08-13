@@ -1,5 +1,11 @@
 #%%
+import os
 from collections import Counter
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
 
 # %%
 def get_query_isoform_names(file):
@@ -50,26 +56,26 @@ def count_gene_isoform_number(path_new_report):
     print("Number of isoform:", num_isoform)
 
 # %%
+WORKDIR = str(Path(os.path.abspath(os.getcwd())).parents[1])
 cov_thres = 60
-annot = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/Trinotate/trinotate_annotation_report_20250725.tsv"
-cov = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/Trinotate/fulllengthtranscripts.w_pct_hit_length"
-out = f"/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/Trinotate/trinotate_annotation_report_att_hit_cov_abov_{cov_thres}_20250725.tsv"
+annot = f"{WORKDIR}/Results/5_trinotate/trinotate_annotation_report_UniVec_fcs_filtered.tsv"
+cov = f"{WORKDIR}/Results/5_trinotate/fulllengthtranscripts.w_pct_hit_length"
+out = f"{WORKDIR}/Results/5_trinotate/trinotate_annotation_report_UniVec_fcs_filtered_att_hit_cov_abov_{cov_thres}.tsv"
 
 dict_query_cov = get_query_isoform_names(cov)
 attach_blastp_cov(annot, out, dict_query_cov, cov_thres)
 count_gene_isoform_number(out)
 
 # %%
-import pandas as pd
-import matplotlib.pyplot as plt
-
 df = pd.read_csv(cov, sep="\t")
 plt.figure(figsize=(5, 5), facecolor="white")
-plt.axvline(x=cov_thres, linestyle="--", color="firebrick")
+plt.axvline(x=cov_thres, linestyle="--", color="firebrick", zorder=5)
 plt.rcParams["font.size"] = 14
-plt.hist(df["pct_hit_len_aligned"], color="grey")
+plt.hist(df["pct_hit_len_aligned"], color="grey", zorder=3)
 plt.xlabel("hit coverage (%)", fontsize=16)
 plt.ylabel("gene count", fontsize=16)
+plt.grid(axis="y", zorder=1)
+plt.savefig(f"{WORKDIR}/Results/5_trinotate/histogram_hit_coverage_cutoff_marked.png", dpi=300)
 plt.show()
 plt.close()
 # %%

@@ -1,6 +1,7 @@
 # %%
 import os
 import subprocess
+from pathlib import Path
 
 ## R requirements ##
 # goseq (https://bioconductor.org/packages/release/bioc/html/goseq.html)
@@ -13,11 +14,14 @@ def run_GOSeq(script, factor_label, go_annot, gene_lengths, expr_mtx):
     subprocess.run(cmd, shell=True)
 
 # %%
-script = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/Tools/trinityrnaseq-v2.14.0/Analysis/DifferentialExpression/run_GOseq.pl"
-factor_label = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/GOSeq/factor_labeling_downreg_hit_cov_abov_60_20250725.tsv"
-go_annot = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/GOSeq/trinotate_GO_annotation.txt"
-gene_lengths = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Results/2_trinity/trinity_flapnoseray.Trinity.gene_lengths.txt"
-expr_mtx = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Results/3_rsem/RSEM.gene.TMM.EXPR.matrix.filt"
+WORKDIR = str(Path(os.path.abspath(os.getcwd())).parents[1])
+script = f"{WORKDIR}/Resources/Tools/trinityrnaseq-v2.14.0/Analysis/DifferentialExpression/run_GOseq.pl"
+factor_label = f"{WORKDIR}/Results/7_go/factor_labeling_upreg_UniVec_fcs_filtered_att_hit_cov_abov_60.tsv"
+go_annot = f"{WORKDIR}/Results/7_go/trinotate_GO_annotation_UniVec_fcs_filtered.txt"
+gene_lengths = f"{WORKDIR}/Results/2_trinity/trinity_flapnoseray.Trinity.bbuk.adapter.filtered.UniVec.blastn.filtered.contam_cleaned.gene_lengths.txt"
+expr_mtx = f"{WORKDIR}/Results/3_rsem/RSEM.gene.TMM.EXPR.matrix.filt.lowcount.removed"
 
 # %%
 run_GOSeq(script, factor_label, go_annot, gene_lengths, expr_mtx)
+
+# %%

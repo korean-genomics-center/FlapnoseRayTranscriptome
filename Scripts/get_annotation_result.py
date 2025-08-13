@@ -1,8 +1,11 @@
 # %%
 import os
-import pandas as pd
-import numpy as np
 from collections import Counter
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
 
 # %%
 def read_transcript_annot_report(annot_report):
@@ -83,9 +86,10 @@ def count_gene_isoform_number(path_new_report):
     print("Number of isoforms:", num_isoform)
 
 # %%
-annot_report = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/Trinotate/trinotate_annotation_report_UniVec_filtered.xls"
-exp_matrix = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/ExpressionMatrix/RSEM.gene.TMM.EXPR.matrix"
-file_out = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/Trinotate/trinotate_annotation_report_20250725.tsv"
+WORKDIR = str(Path(os.path.abspath(os.getcwd())).parents[1])
+annot_report = f"{WORKDIR}/Results/5_trinotate/trinotate_annotation_report_UniVec_fcs_filtered.xls"
+exp_matrix = f"{WORKDIR}/Results/3_rsem/RSEM.gene.TMM.EXPR.matrix.filt"
+file_out = f"{WORKDIR}/Results/5_trinotate/trinotate_annotation_report_UniVec_fcs_filtered.tsv"
 os.makedirs(os.path.dirname(file_out), exist_ok=True)
 
 # %%
@@ -95,3 +99,4 @@ dict_query_exp = get_dict_query_exp(exp_matrix)
 write_annot_file(df_annot_modif, dict_query_exp, file_out)
 count_gene_isoform_number(file_out)
 
+# %%

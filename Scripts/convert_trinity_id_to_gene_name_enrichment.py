@@ -1,4 +1,9 @@
 # %%
+import os
+from pathlib import Path
+
+
+# %%
 def get_hash_trinity_gene(annot):
     dict_trinity_gene = dict()
     with open(annot, "r") as fr:
@@ -35,10 +40,11 @@ def read_enrichment_result(enrich, hash, out):
                 fw.write(record)
 
 # %%
+WORKDIR = str(Path(os.path.abspath(os.getcwd())).parents[1])
 reg = "upreg"
-annot = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/Trinotate/trinotate_annotation_report_att_hit_cov_abov_60_20250725.tsv"
-enrich = f"/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Scripts/diff_expressed_tumor_normal_{reg}.GOseq.enriched"
-out = f"/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Scripts/diff_expressed_tumor_normal_{reg}.GOseq.enriched_att_genename.tsv"
+annot = f"{WORKDIR}/Results/5_trinotate/trinotate_annotation_report_UniVec_fcs_filtered_att_hit_cov_abov_60.tsv"
+enrich = f"{WORKDIR}/Results/7_go/diff_expressed_tumor_normal_{reg}.GOseq.enriched"
+out = f"{WORKDIR}/Results/7_go/diff_expressed_tumor_normal_{reg}.GOseq.enriched_att_genename.tsv"
 
 hash = get_hash_trinity_gene(annot)
 read_enrichment_result(enrich, hash, out)

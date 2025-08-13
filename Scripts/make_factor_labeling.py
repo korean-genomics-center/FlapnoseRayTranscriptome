@@ -1,5 +1,7 @@
 # %%
-from collections import Counter
+import os
+from pathlib import Path
+
 
 # %%
 def get_unique_deg(infile, reg):
@@ -29,8 +31,9 @@ def get_sig_deg(outfile, list_deg, reg):
             fw.write(f"diff_expressed_tumor_normal_{reg}\t{deg}\n")
 
 # %%
-reg = "upreg"
-infile = "/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/Trinotate/trinotate_annotation_report_att_hit_cov_abov_60_20250725.tsv"
-outfile = f"/BiO/Research/Project1/FlapnoserayTumorTranscriptome/Resources/FlapnoseRayTranscriptome/Data/GOSeq/factor_labeling_{reg}_hit_cov_abov_60_20250725.tsv"
+WORKDIR = str(Path(os.path.abspath(os.getcwd())).parents[1])
+reg = "downreg"
+infile = f"{WORKDIR}/Results/5_trinotate/trinotate_annotation_report_UniVec_fcs_filtered_att_hit_cov_abov_60.tsv"
+outfile = f"{WORKDIR}/Results/7_go/factor_labeling_{reg}_UniVec_fcs_filtered_att_hit_cov_abov_60.tsv"
 list_deg = get_unique_deg(infile, reg)
 get_sig_deg(outfile, list_deg, reg)
