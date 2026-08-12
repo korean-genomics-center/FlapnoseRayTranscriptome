@@ -8,9 +8,6 @@
   - [ORF Prediction](#orf-prediction)
   - [Differential Expression Analysis](#differential-expression-analysis)
   - [Functional Enrichment](#functional-enrichment)
-* [Data and Figures in the Manuscript](#data-and-figures-in-the-manuscript)
-  - [Data](#data)
-  - [Figures](#figures)
 
 ## Analysis
 ### Pre-Assembly Processing and Quality Control
